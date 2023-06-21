@@ -19,7 +19,7 @@ class NetworkManager {
     
     private init() {}
     
-    func getAllProducts<T: Decodable> (url: URL) async throws -> T {
+    func getAllProducts<T: Decodable> (url: URL) async throws -> [T] {
         
         let (data, response) = try await URLSession.shared.data(from: url)
         
@@ -32,7 +32,7 @@ class NetworkManager {
         }
         
         do {
-            return try JSONDecoder().decode(T.self, from: data)
+            return try JSONDecoder().decode([T].self, from: data)
         } catch {
             throw APIError.decodingError
         }

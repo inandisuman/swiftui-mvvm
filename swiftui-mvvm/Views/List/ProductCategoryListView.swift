@@ -14,7 +14,7 @@ struct ProductCategoryListView: View {
     var body: some View {
         NavigationView {
             List {
-                ForEach(productCategoryVewModel.listOfProductCategories){ category in
+                ForEach(productCategoryVewModel.listOfProductCategories, id: \.self) { category in
                     Text(category.name)
                 }
                 .navigationTitle("Categories")

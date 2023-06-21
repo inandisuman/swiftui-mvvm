@@ -8,9 +8,33 @@
 import SwiftUI
 
 struct ProductListView: View {
+    
+    @StateObject var productListViewModel = ProductListViewModel()
+    @State private var searchText = " "
+
     var body: some View {
-        Text("Hello, world!")
-            .padding()
+        NavigationView {
+            List {
+                ForEach(searchedProducts) { product in
+                    ProductCellView(product: product)
+                }
+            }
+            .navigationTitle("Products")
+            .navigationBarTitleDisplayMode(.inline)
+            .searchable(text: $searchText, prompt: "Search by title")
+        }
+        .task {
+            await productListViewModel.getAllProducts()
+        }
+    }
+    
+    var searchedProducts: [Product] {
+        if searchText.isEmpty {
+            return productListViewModel.listOfProducts
+        } else {
+            return productListViewModel.listOfProducts.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+        }
+        
     }
 }
 

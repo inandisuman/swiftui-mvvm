@@ -20,6 +20,8 @@ class ProductCategoryListViewModel: ObservableObject {
             print(error)
         }
         
-        self.listOfProductCategories = listOfProductCategoriesFromService.map { ProductCategory.init(name: $0.category) }
+        let duplicatelistOfProductCategories = listOfProductCategoriesFromService.map {
+            ProductCategory.init(name: $0.category) }
+        self.listOfProductCategories = Array(Set(duplicatelistOfProductCategories))
     }
 }

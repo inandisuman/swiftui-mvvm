@@ -14,15 +14,14 @@ enum Categories {
     case jewelery
 }
 
-struct ProductCategory: Identifiable, Hashable {
-    let id = UUID()
+struct ProductCategory: Hashable {
     let name: String
 }
 
 struct ProductCategoryResponse: Decodable {
     let id: Int
     let title: String
-    let price: Int
+    let price: Double
     let description: String
     let category: String
     let image: String
