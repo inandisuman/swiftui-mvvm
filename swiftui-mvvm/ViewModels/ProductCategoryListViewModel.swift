@@ -6,3 +6,20 @@
 //
 
 import Foundation
+
+@MainActor
+class ProductCategoryListViewModel: ObservableObject {
+    
+    @Published var listOfProductCategories = [ProductCategory]()
+    
+    func getAllProducts() async {
+        var listOfProductCategoriesFromService = [ProductCategoryResponse]()
+        do  {
+            listOfProductCategoriesFromService = try await NetworkManager.shared.getAllProducts(url: Constants.Urls.getAllProducts)
+        } catch {
+            print(error)
+        }
+        
+        self.listOfProductCategories = listOfProductCategoriesFromService.map { ProductCategory.init(name: $0.category) }
+    }
+}

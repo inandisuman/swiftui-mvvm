@@ -6,3 +6,12 @@
 //
 
 import Foundation
+
+struct Constants {
+    struct Urls {
+        static let getAllProducts = URL(string: "https://fakestoreapi.com/products/")!
+        static func getProductById(_ id: String) -> URL {
+            return URL(string: "https://fakestoreapi.com/products/\(id)")!
+        }
+    }
+}

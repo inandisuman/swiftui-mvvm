@@ -8,8 +8,22 @@
 import SwiftUI
 
 struct ProductCategoryListView: View {
+    
+    @StateObject private var productCategoryVewModel =  ProductCategoryListViewModel()
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            List {
+                ForEach(productCategoryVewModel.listOfProductCategories){ category in
+                    Text(category.name)
+                }
+                .navigationTitle("Categories")
+                .navigationBarTitleDisplayMode(.inline)
+            }
+        }
+        .task {
+            await productCategoryVewModel.getAllProducts()
+        }
     }
 }
 
