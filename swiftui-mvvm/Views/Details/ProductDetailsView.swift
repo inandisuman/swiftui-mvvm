@@ -8,13 +8,29 @@
 import SwiftUI
 
 struct ProductDetailsView: View {
+    
+    var product: Product
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack {
+            Text(product.description)
+            
+            Button {
+                // Add to favourites
+                
+            } label: {
+                Text("Add to Favourites")
+                    .padding()
+            }
+            .buttonStyle(.borderedProminent)
+            
+            Spacer()
+        }
     }
 }
 
-struct ProductDetailsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProductDetailsView()
-    }
-}
+//struct ProductDetailsView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ProductDetailsView()
+//    }
+//}

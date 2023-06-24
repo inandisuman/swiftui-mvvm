@@ -18,7 +18,7 @@ struct ProductCategory: Hashable {
     let name: String
 }
 
-struct ProductCategoryResponse: Decodable {
+struct Product: Identifiable, Decodable {
     let id: Int
     let title: String
     let price: Double

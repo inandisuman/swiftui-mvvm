@@ -8,14 +8,20 @@
 import SwiftUI
 
 struct ProductCategoryListView: View {
-    
-    @StateObject private var productCategoryVewModel =  ProductCategoryListViewModel()
+        
+    @StateObject private var productCategoryVewModel =  ProductCategoryListViewModel(listOfProducts: [Product]())
+    @State private var selectedCategory = ""
     
     var body: some View {
         NavigationView {
             List {
-                ForEach(productCategoryVewModel.listOfProductCategories, id: \.self) { category in
-                    Text(category.name)
+                ForEach(productCategoryVewModel.listOfCategories, id: \.self) { category in
+                    NavigationLink(destination: {
+                        // Go to Products
+                        ProductListView(productsByCategory: productCategoryVewModel.filteredProducts(category: category.name))
+                    }, label: {
+                        Text(category.name)
+                    })
                 }
                 .navigationTitle("Categories")
                 .navigationBarTitleDisplayMode(.inline)

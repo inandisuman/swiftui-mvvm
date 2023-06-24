@@ -10,18 +10,27 @@ import Foundation
 @MainActor
 class ProductCategoryListViewModel: ObservableObject {
     
-    @Published var listOfProductCategories = [ProductCategory]()
+    @Published var listOfCategories = [ProductCategory]()
     
+    var listOfProducts: [Product]
+    
+    init(listOfProducts: [Product]) {
+        self.listOfProducts = listOfProducts
+    }
+
     func getAllProducts() async {
-        var listOfProductCategoriesFromService = [ProductCategoryResponse]()
         do  {
-            listOfProductCategoriesFromService = try await NetworkManager.shared.getAllProducts(url: Constants.Urls.getAllProducts)
+            self.listOfProducts = try await NetworkManager.shared.getAllProducts(url: Constants.Urls.getAllProducts)
         } catch {
             print(error)
         }
         
-        let duplicatelistOfProductCategories = listOfProductCategoriesFromService.map {
-            ProductCategory.init(name: $0.category) }
-        self.listOfProductCategories = Array(Set(duplicatelistOfProductCategories))
+        let duplicatelistOfProductCategories = self.listOfProducts.map {
+            ProductCategory.init(name: $0.category ) }
+        self.listOfCategories = Array(Set(duplicatelistOfProductCategories))
+    }
+    
+    func filteredProducts(category: String) -> [Product] {
+        return self.listOfProducts.filter { $0.category == category }
     }
 }

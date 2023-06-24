@@ -10,36 +10,29 @@ import SwiftUI
 struct ProductListView: View {
     
     @StateObject var productListViewModel = ProductListViewModel()
+    var productsByCategory: [Product]
     @State private var searchText = " "
-
+    
     var body: some View {
-        NavigationView {
-            List {
-                ForEach(searchedProducts) { product in
+        List {
+            ForEach(searchedProducts) { product in
+                NavigationLink {
+                    ProductDetailsView(product: product)
+                } label: {
                     ProductCellView(product: product)
                 }
             }
-            .navigationTitle("Products")
-            .navigationBarTitleDisplayMode(.inline)
-            .searchable(text: $searchText, prompt: "Search by title")
         }
-        .task {
-            await productListViewModel.getAllProducts()
-        }
+        .navigationTitle(productsByCategory.first!.category)
+        .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
     }
     
     var searchedProducts: [Product] {
         if searchText.isEmpty {
-            return productListViewModel.listOfProducts
+            return productsByCategory
         } else {
-            return productListViewModel.listOfProducts.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+            return productsByCategory.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
         }
         
-    }
-}
-
-struct ProductListView_Previews: PreviewProvider {
-    static var previews: some View {
-        ProductListView()
     }
 }
