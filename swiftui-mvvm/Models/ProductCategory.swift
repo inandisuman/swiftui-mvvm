@@ -7,11 +7,11 @@
 
 import Foundation
 
-enum Categories {
-    case mensclothing
-    case womensclothing
-    case electronics
-    case jewelery
+enum Categories: String, Decodable {
+    case mensclothing = "men's clothing"
+    case womensclothing = "women's clothing"
+    case electronics = "electronics"
+    case jewelery = "jewelery"
 }
 
 struct ProductCategory: Hashable {
@@ -23,6 +23,6 @@ struct ProductResponse: Decodable {
     let title: String
     let price: Double
     let description: String
-    let category: String
+    let category: Categories
     let image: String
 }

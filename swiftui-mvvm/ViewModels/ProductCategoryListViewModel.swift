@@ -28,12 +28,12 @@ class ProductCategoryListViewModel: ObservableObject {
         
         // Map response to Product
         self.productList.products = productResposne.map { response in
-            Product(id: response.id, title: response.title, price: response.price, description: response.description, category: response.category, image: response.image, isFavourite: false)
+            Product(id: response.id, title: response.title, price: response.price, description: response.description, category: response.category.rawValue, image: response.image, isFavourite: false)
         }
         
         // Map response to only categories
         let duplicatelistOfProductCategories = productResposne.map {
-            ProductCategory.init(name: $0.category ) }
+            ProductCategory.init(name: $0.category.rawValue ) }
         self.listOfCategories = Array(Set(duplicatelistOfProductCategories))
     }
     

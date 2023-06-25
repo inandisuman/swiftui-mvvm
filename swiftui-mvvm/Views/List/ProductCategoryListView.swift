@@ -10,7 +10,6 @@ import SwiftUI
 struct ProductCategoryListView: View {
     
     @StateObject private var productCategoryVewModel =  ProductCategoryListViewModel(productList: ProductList())
-    @State private var selectedCategory = ""
     
     var body: some View {
         NavigationView {
