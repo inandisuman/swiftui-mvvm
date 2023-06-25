@@ -9,5 +9,7 @@ import Foundation
 
 @MainActor
 class ProductListViewModel: ObservableObject {
+        
+    
     
 }

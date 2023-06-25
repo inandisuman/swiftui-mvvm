@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ProductDetailsView: View {
     
+    @ObservedObject var favProducts: FavouriteProducts
     var product: Product
     
     var body: some View {
@@ -17,7 +18,7 @@ struct ProductDetailsView: View {
             
             Button {
                 // Add to favourites
-                
+                favProducts.products.append(product)
             } label: {
                 Text("Add to Favourites")
                     .padding()
