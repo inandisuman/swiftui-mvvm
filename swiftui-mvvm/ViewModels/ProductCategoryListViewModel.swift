@@ -12,25 +12,32 @@ class ProductCategoryListViewModel: ObservableObject {
     
     @Published var listOfCategories = [ProductCategory]()
     
-    var listOfProducts: [Product]
+    var productList: ProductList
     
-    init(listOfProducts: [Product]) {
-        self.listOfProducts = listOfProducts
+    init(productList: ProductList) {
+        self.productList = productList
     }
 
     func getAllProducts() async {
+        var productResposne = [ProductResponse]()
         do  {
-            self.listOfProducts = try await NetworkManager.shared.getAllProducts(url: Constants.Urls.getAllProducts)
+            productResposne = try await NetworkManager.shared.getAllProducts(url: Constants.Urls.getAllProducts)
         } catch {
             print(error)
         }
         
-        let duplicatelistOfProductCategories = self.listOfProducts.map {
+        // Map response to Product
+        self.productList.products = productResposne.map { response in
+            Product(id: response.id, title: response.title, price: response.price, description: response.description, category: response.category, image: response.image, isFavourite: false)
+        }
+        
+        // Map response to only categories
+        let duplicatelistOfProductCategories = productResposne.map {
             ProductCategory.init(name: $0.category ) }
         self.listOfCategories = Array(Set(duplicatelistOfProductCategories))
     }
     
     func filteredProducts(category: String) -> [Product] {
-        return self.listOfProducts.filter { $0.category == category }
+        return self.productList.products.filter { $0.category == category }
     }
 }

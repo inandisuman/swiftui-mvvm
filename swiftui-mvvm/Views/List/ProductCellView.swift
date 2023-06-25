@@ -9,15 +9,23 @@ import SwiftUI
 
 struct ProductCellView: View {
     
-    let product: Product
+    @ObservedObject var product: Product
     
     var body: some View {
-        VStack(alignment: .leading) {
-            Text(product.title)
-                .foregroundColor(.blue)
-                .bold()
-            Text("$\(product.price)")
-                .font(.subheadline)
+        HStack {
+            VStack(alignment: .leading) {
+                Text(product.title)
+                    .foregroundColor(.blue)
+                    .bold()
+                Text("$\(product.price)")
+                    .font(.subheadline)
+            }
+            Spacer()
+            Image(systemName: product.isFavourite ? "heart.fill" : "heart")
+                .foregroundColor(.red)
+                .onTapGesture {
+                    product.isFavourite.toggle()
+                }
         }
     }
 }

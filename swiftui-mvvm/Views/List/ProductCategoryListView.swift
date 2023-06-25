@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct ProductCategoryListView: View {
-        
-    @StateObject private var productCategoryVewModel =  ProductCategoryListViewModel(listOfProducts: [Product]())
+    
+    @StateObject private var productCategoryVewModel =  ProductCategoryListViewModel(productList: ProductList())
     @State private var selectedCategory = ""
     
     var body: some View {
@@ -18,7 +18,7 @@ struct ProductCategoryListView: View {
                 ForEach(productCategoryVewModel.listOfCategories, id: \.self) { category in
                     NavigationLink(destination: {
                         // Go to Products
-                        ProductListView(productsByCategory: productCategoryVewModel.filteredProducts(category: category.name))
+                        ProductListView(categorySelected: category.name, productList: productCategoryVewModel.productList)
                     }, label: {
                         Text(category.name)
                     })

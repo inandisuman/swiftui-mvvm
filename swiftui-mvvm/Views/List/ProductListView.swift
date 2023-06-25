@@ -9,22 +9,22 @@ import SwiftUI
 
 struct ProductListView: View {
     
-    @StateObject var favProducts = FavouriteProducts()
-    var productsByCategory: [Product]
-    @State private var searchText = " "
+    var categorySelected: String
+    var productList: ProductList
+    @State private var searchText = ""
     @State private var showFavouriteProducts: Bool = false
     
     var body: some View {
         List {
-            ForEach(filteredProducts) { product in
+            ForEach(searchedProducts) { product in
                 NavigationLink {
-                    ProductDetailsView(favProducts: favProducts, product: product)
+                    ProductDetailsView(product: product)
                 } label: {
                     ProductCellView(product: product)
                 }
             }
         }
-        .navigationTitle(productsByCategory.first!.category)
+        .navigationTitle(categorySelected)
         .searchable(text: $searchText, placement: .navigationBarDrawer(displayMode: .always))
         .toolbar {
             ToolbarItem {
@@ -33,24 +33,23 @@ struct ProductListView: View {
                 } label: {
                     Text("Favourites")
                 }
-
             }
         }
     }
-    var searchedProducts: [Product] {
-        if searchText.isEmpty {
-            return productsByCategory
+    
+    var filteredProductsByCategory: [Product] {
+        if !categorySelected.isEmpty {
+            return productList.products.filter { $0.category == categorySelected }
         } else {
-            return productsByCategory.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+            return productList.products
         }
-        
     }
     
-    var filteredProducts: [Product] {
-        if showFavouriteProducts {
-            return favProducts.products
+    var searchedProducts: [Product] {
+        if searchText.isEmpty {
+            return filteredProductsByCategory
         } else {
-            return productsByCategory
+            return filteredProductsByCategory.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
         }
     }
 }
