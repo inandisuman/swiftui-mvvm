@@ -14,7 +14,7 @@ struct ProductDetailsView: View {
     var body: some View {
         VStack {
             Text(product.description)
-            
+                .padding()
             Button {
                 // Add to favourites
                 product.isFavourite = true

@@ -16,7 +16,7 @@ struct ProductListView: View {
     
     var body: some View {
         List {
-            ForEach(searchedProducts) { product in
+            ForEach(filteredProductsByFavourite) { product in
                 NavigationLink {
                     ProductDetailsView(product: product)
                 } label: {
@@ -50,6 +50,14 @@ struct ProductListView: View {
             return filteredProductsByCategory
         } else {
             return filteredProductsByCategory.filter { $0.title.localizedCaseInsensitiveContains(searchText) }
+        }
+    }
+    
+    var filteredProductsByFavourite: [Product] {
+        if showFavouriteProducts {
+            return filteredProductsByCategory.filter { $0.isFavourite }
+        } else {
+            return filteredProductsByCategory
         }
     }
 }
